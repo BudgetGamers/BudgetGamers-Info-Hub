@@ -20,6 +20,10 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
+    background-image: linear-gradient(rgba(8, 26, 51, 0.9), rgba(8, 26, 51, 0.9)), url('../Images/Background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--text-primary);
     min-height: 100vh;
     display: flex;
