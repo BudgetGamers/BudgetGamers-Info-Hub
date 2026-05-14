@@ -126,22 +126,24 @@ body {
 /* Burger Menu */
 .burger-menu {
     display: none;
-    flex-direction: column;
-    gap: 5px;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     z-index: 1001;
     background: none;
     border: none;
-    padding: 10px;
+    padding: 5px;
 }
 
-.burger-menu span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-    border-radius: 2px;
-    transition: all 0.3s ease;
+.burger-menu img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1); /* Make the black SVG white */
+    transition: transform 0.3s ease;
+}
+
+.burger-menu.active img {
+    transform: rotate(90deg);
 }
 
 /* Mobile Menu Overlay */
@@ -173,18 +175,6 @@ body {
     letter-spacing: 2px;
 }
 
-/* Burger Animation */
-.burger-menu.active span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.burger-menu.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.burger-menu.active span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
 
 .nav-actions {
     display: flex;
