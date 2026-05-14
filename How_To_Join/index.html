@@ -12,13 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../colorblind.css">
-    <script>
-        if (localStorage.getItem('grayscale') === 'true') {
-            document.documentElement.classList.add('grayscale');
-        }
-    </script>
-    <script src="../colorblind.js"></script>
     <link rel="icon" href="../Images/Logo.png">
 </head>
 
@@ -38,11 +31,23 @@
             <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
         </div>
         <div class="nav-actions">
-            <button id="colorblind-toggle" title="Toggle Accessibility Mode">
-                <div class="bw-square"></div>
+            <button class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-overlay" id="mobile-overlay">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link active">How to Join</a>
+        <a href="../Status/index.html" class="nav-link">Server Status</a>
+        <a href="../Modpacks/index.html" class="nav-link">Modpacks</a>
+        <a href="https://github.com/BudgetGamers" target="_blank" class="nav-link">GitHub</a>
+        <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
+    </div>
 
     <!-- Background Blobs -->
     <div class="background-blob blob-1"></div>
@@ -55,7 +60,7 @@
         </header>
 
         <div class="instruction-steps" style="display: grid; gap: 24px;">
-            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px;">
+            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; margin: 3px;">
                 <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Step 1: Install Hamachi</h3>
                 <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">The first step is to install Hamachi</p>
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
@@ -65,30 +70,30 @@
                 <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 15px;">If you are on linux run the installer with <strong>sudo ./install.sh</strong><br> and make sure you have it set as able to run as an executable in the propertys</p>
             </div>
 
-            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px;">
+            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; margin: 3px;">
                 <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Step 2: setup hamachi</h3>
                 <p style="color: var(--text-secondary); line-height: 1.6;">Click the power button in the top left of hamachi and it will promt you to sign in,<br>on windows it will ask for script acceptance press YES.<br>Click "Signup" and enter your email and password you wish to use with hamachi.</p>
             </div>
 
-            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px;">
+            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; margin: 3px;">
                 <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Step 3: Connect to the network</h3>
                 <p style="color: var(--text-secondary); line-height: 1.6;">Connect to the BudgetGamers Network</p>
                 <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">Network: BudgetGamers[xx]<br>Password: BudgetGamers</p>
                 <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">Replace [xx] with any number 01 up to 20.<br>(e.g. BudgetGamers01, BudgetGamers02, etc.)</p>
             </div>
 
-            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px;">
+            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; margin: 3px;">
                 <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Step 4: Connect to the server</h3>
                 <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 15px;">Connect to the BudgetGamers Server of your choice</p>
                 <a href="../Status/index.html" class="btn btn-primary" style="display: inline-flex; padding: 10px 20px; font-size: 0.9rem;">Click here to see the servers</a>
             </div>
 
-            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px;">
+            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; margin: 3px;">
                 <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Bedrock Step 1: Add BudgetGamers354 as a friend</h3>
                 <p style="color: var(--text-secondary); line-height: 1.6;">Go to your friends list in Minecraft and add BudgetGamers354 as a friend</p>
             </div>
             
-            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px;">
+            <div class="instruction-step" style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; margin: 3px;">
                 <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Bedrock Step 2: Join the crossplatform server</h3>
                 <p style="color: var(--text-secondary); line-height: 1.6;">Join the crossplatform server by clicking on BudgetGamers354 in your friends list and clicking "Join Server"</p>
             </div>

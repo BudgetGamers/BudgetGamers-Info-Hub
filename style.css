@@ -92,6 +92,10 @@ body {
     font-size: 1.2rem;
 }
 
+.nav-logo span {
+    transition: opacity 0.3s, display 0.3s;
+}
+
 .nav-logo img {
     height: 35px;
     width: 35px;
@@ -119,6 +123,69 @@ body {
     color: var(--accent-primary);
 }
 
+/* Burger Menu */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+    background: none;
+    border: none;
+    padding: 10px;
+}
+
+.burger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Menu Overlay */
+.mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(26, 26, 26, 0.98);
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-overlay.active {
+    transform: translateX(0);
+}
+
+.mobile-overlay .nav-link {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Burger Animation */
+.burger-menu.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
 .nav-actions {
     display: flex;
     align-items: center;
@@ -127,13 +194,13 @@ body {
 
 /* Hero Section */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 20px;
+    padding: 100px 20px; /* Added padding-top to avoid header cutoff */
     position: relative;
 }
 
@@ -246,30 +313,10 @@ body {
 .page-container {
     padding-top: 120px;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 3px auto; /* Added 3px margin as requested */
     padding-bottom: 100px;
 }
 
-/* Colorblind Toggle Override */
-#colorblind-toggle {
-    position: static;
-    background: rgba(255, 255, 255, 0.1);
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-#colorblind-toggle .bw-square {
-    width: 18px;
-    height: 18px;
-    background: linear-gradient(135deg, #fff 50%, #000 50%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
 
 /* Steam Section (moved or adjusted) */
 .steam-mini-card {
@@ -300,11 +347,51 @@ body {
 
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+    .nav-logo span {
+        display: none;
+    }
+
     .nav-links {
         display: none;
     }
 
+    .burger-menu {
+        display: flex;
+    }
+
+    .nav-actions {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+
+    #modpack-grid {
+        padding: 0 20px !important; /* Reduce side margins on mobile */
+        justify-content: center;
+    }
+
+    .modpack-content {
+        max-width: 400px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .hero-title {
+        font-size: 2.5rem !important;
+        letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+
+    .hero {
+        padding-top: 120px; /* More padding to ensure nothing is cutoff */
+        justify-content: flex-start; /* Start from top on mobile */
+    }
+}
+
+@media (max-width: 768px) {
     .hero-btns {
         flex-direction: column;
         width: 100%;

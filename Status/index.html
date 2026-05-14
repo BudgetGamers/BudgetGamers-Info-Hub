@@ -12,13 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../colorblind.css">
-    <script>
-        if (localStorage.getItem('grayscale') === 'true') {
-            document.documentElement.classList.add('grayscale');
-        }
-    </script>
-    <script src="../colorblind.js"></script>
     <link rel="icon" href="../Images/Logo.png">
 </head>
 
@@ -38,11 +31,23 @@
             <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
         </div>
         <div class="nav-actions">
-            <button id="colorblind-toggle" title="Toggle Accessibility Mode">
-                <div class="bw-square"></div>
+            <button class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-overlay" id="mobile-overlay">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../How_To_Join/index.html" class="nav-link">How to Join</a>
+        <a href="index.html" class="nav-link active">Server Status</a>
+        <a href="../Modpacks/index.html" class="nav-link">Modpacks</a>
+        <a href="https://github.com/BudgetGamers" target="_blank" class="nav-link">GitHub</a>
+        <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
+    </div>
 
     <!-- Background Blobs -->
     <div class="background-blob blob-1"></div>
@@ -62,6 +67,7 @@
         </div>
     </main>
 
+    <script src="../script.js"></script>
     <script src="script.js"></script>
 </body>
 
