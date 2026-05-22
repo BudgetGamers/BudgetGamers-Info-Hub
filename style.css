@@ -382,6 +382,86 @@ body {
 }
 
 
+/* Steam-Style Distro Layout */
+.steam-container {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.steam-banner {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)), url('Images/Background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 60px 40px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.steam-banner-text h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.steam-banner-text p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+}
+
+.steam-content {
+    padding: 40px;
+}
+
+.warning-banner {
+    background: rgba(255, 107, 0, 0.1);
+    border-left: 4px solid var(--accent-primary);
+    padding: 15px 20px;
+    margin: 30px 0;
+    color: #fff;
+    border-radius: 0 8px 8px 0;
+}
+
+.sys-reqs {
+    margin-top: 40px;
+}
+
+.sys-reqs h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 10px;
+}
+
+.sys-reqs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.req-column h4 {
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+}
+
+.req-column ul {
+    list-style-type: none;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.req-column ul li strong {
+    color: #fff;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .nav-logo span {
@@ -437,6 +517,16 @@ body {
         gap: 30px;
         flex-wrap: wrap;
         padding: 20px 0;
+    }
+
+    .sys-reqs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steam-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
     }
 }
 

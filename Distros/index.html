@@ -64,148 +64,58 @@
             <p class="hero-subtitle">Custom Linux Distributions by BudgetGamers</p>
         </header>
 
-        <div id="modpack-grid"
-            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; width: 100%; padding: 0 80px; box-sizing: border-box;">
-
-            <section class="modpack-content" style="text-align: center;">
-                <div
-                    style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                    <h2 class="modpack-title" style="color: #fff; margin-bottom: 20px;">POP!_OS BudgetGamers Edition
-                    </h2>
-                    <p class="modpack-desc"
-                        style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; overflow: hidden; max-height: 4.8em; transition: all 0.3s ease;">
-                        A POP!_OS Based Linux Distro with KDE rather than the MACOS Style Desktop Environment.
-                    </p>
-                    <button class="show-more"
-                        style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 5px 15px; border-radius: 20px; transition: all 0.2s ease; color: var(--accent-primary); cursor: pointer; font-size: 0.8rem; margin-bottom: 20px; display: none; font-weight: 700;">Show
-                        More</button>
-                    <a href="https://huggingface.co/datasets/BudgetGamers/Distros/resolve/main/pop-os_24.04.0-2026.05.18_amd64_generic_24_BudgetGamers.iso?download=true"
-                        class="btn btn-primary"
-                        style="display: inline-flex; justify-content: center; margin: 0 auto; width: 100%;">
-                        <img src="https://cdn.simpleicons.org/curseforge/000" alt=""
-                            style="width:20px; margin-right: 10px;">
-                        <span class="download-text">Download Template</span>
+        <div class="steam-container">
+            <!-- Hero Banner -->
+            <div class="steam-banner">
+                <div class="steam-banner-text">
+                    <h2>POP!_OS BudgetGamers Edition</h2>
+                    <p>A POP!_OS Based Linux Distro with KDE rather than the MACOS Style Desktop Environment.</p>
+                </div>
+                <div class="steam-action">
+                    <a href="https://huggingface.co/datasets/BudgetGamers/Distros/resolve/main/pop-os_24.04.0-2026.05.18_amd64_generic_24_BudgetGamers.iso?download=true" class="btn btn-primary" style="display: flex; align-items: center; font-size: 1.1rem; padding: 20px 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);">
+                        <img src="https://cdn.simpleicons.org/linux/white" alt="Linux" style="width: 24px; margin-right: 15px;">
+                        <span class="download-text">Download ISO</span>
                     </a>
                 </div>
-            </section>
+            </div>
 
-            <section class="modpack-content" style="text-align: center;">
-                <div
-                    style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                    <h2 class="modpack-title" style="color: #fff; margin-bottom: 20px;">Future OS?</h2>
-                    <p class="modpack-desc"
-                        style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; overflow: hidden; max-height: 4.8em; transition: all 0.3s ease;">
-                        A new Distro may be available down the road.
-                    </p>
-                    <button class="show-more"
-                        style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 5px 15px; border-radius: 20px; transition: all 0.2s ease; color: var(--accent-primary); cursor: pointer; font-size: 0.8rem; margin-bottom: 20px; display: none; font-weight: 700;">Show
-                        More</button>
-                    <a href="#" class="btn btn-primary"
-                        style="display: inline-flex; justify-content: center; margin: 0 auto; width: 100%;">
-                        <img src="https://cdn.simpleicons.org/curseforge/000" alt=""
-                            style="width:20px; margin-right: 10px;">
-                        <span class="download-text">Download Template</span>
-                    </a>
+            <!-- Content Area -->
+            <div class="steam-content">
+                <div class="warning-banner">
+                    <strong>NOTE:</strong> Hardware requirements are subject to change due to the current experimental nature of the distro.
                 </div>
-            </section>
-        </div>
 
-        <div id="pagination-controls"
-            style="display: flex; justify-content: center; gap: 15px; margin-top: 60px; padding-bottom: 60px;">
-            <button id="prev-page" class="btn btn-secondary" style="padding: 10px 20px;">Previous</button>
-            <span id="page-info" style="color: var(--text-secondary); align-self: center; font-weight: 600;">Page
-                1</span>
-            <button id="next-page" class="btn btn-secondary" style="padding: 10px 20px;">Next</button>
+                <div class="sys-reqs">
+                    <h3>System Requirements</h3>
+                    <div class="sys-reqs-grid">
+                        <div class="req-column">
+                            <h4>Minimum</h4>
+                            <ul>
+                                <li><strong>OS:</strong> 64-bit</li>
+                                <li><strong>Processor:</strong> Early Ryzen or Intel Equivalent</li>
+                                <li><strong>Memory:</strong> 6GB RAM</li>
+                                <li><strong>Graphics:</strong> Integrated Graphics</li>
+                                <li><strong>Storage:</strong> 64GB HDD available space</li>
+                            </ul>
+                        </div>
+                        <div class="req-column">
+                            <h4>Recommended</h4>
+                            <ul>
+                                <li><strong>OS:</strong> 64-bit</li>
+                                <li><strong>Processor:</strong> Ryzen 3000 or Intel 7th gen equivalent</li>
+                                <li><strong>Memory:</strong> 16GB RAM</li>
+                                <li><strong>Graphics:</strong> Dedicated Graphics Card</li>
+                                <li><strong>Storage:</strong> 256GB SSD available space</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-top: 20px; font-style: italic;">* Hardware Requirements are subject to user preference.</p>
+                </div>
+            </div>
         </div>
     </main>
 
     <script src="../script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = Array.from(document.querySelectorAll('.modpack-content'));
-            const itemsPerPage = 40;
-            let currentPage = 1;
-
-            // Initialization
-            sections.forEach(section => {
-                const titleElement = section.querySelector('.modpack-title');
-                const downloadBtn = section.querySelector('.btn-primary');
-                const downloadText = section.querySelector('.download-text');
-                const desc = section.querySelector('.modpack-desc');
-                const showMore = section.querySelector('.show-more');
-
-                // Dynamic Title and Button Hiding
-                if (titleElement && downloadBtn && downloadText) {
-                    const title = titleElement.innerText.trim();
-                    if (title.toLowerCase() === 'future os?') {
-                        downloadBtn.style.display = 'none';
-                    } else {
-                        downloadText.innerText = `Download ${title}`;
-                    }
-                }
-
-                // Show More Logic (Standard Cross-Browser)
-                if (desc && showMore) {
-                    // Check if truncated by height
-                    const isTruncated = desc.scrollHeight > desc.clientHeight + 5;
-
-                    if (isTruncated) {
-                        showMore.style.display = 'inline-block';
-                    }
-
-                    showMore.addEventListener('click', () => {
-                        const isExpanded = desc.style.maxHeight === 'none';
-                        if (isExpanded) {
-                            desc.style.maxHeight = '4.8em';
-                            showMore.innerText = 'Show More';
-                        } else {
-                            desc.style.maxHeight = 'none';
-                            showMore.innerText = 'Show Less';
-                        }
-                    });
-                }
-            });
-
-            // Pagination Logic
-            const paginationControls = document.getElementById('pagination-controls');
-            const totalPages = Math.ceil(sections.length / itemsPerPage);
-
-            if (totalPages <= 1) {
-                paginationControls.style.display = 'none';
-            }
-
-            function updateDisplay() {
-                const start = (currentPage - 1) * itemsPerPage;
-                const end = start + itemsPerPage;
-
-                sections.forEach((s, i) => {
-                    s.style.display = (i >= start && i < end) ? 'block' : 'none';
-                });
-
-                document.getElementById('page-info').innerText = `Page ${currentPage} of ${totalPages}`;
-                document.getElementById('prev-page').disabled = (currentPage === 1);
-                document.getElementById('next-page').disabled = (currentPage === totalPages);
-            }
-
-            document.getElementById('prev-page').addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    updateDisplay();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-
-            document.getElementById('next-page').addEventListener('click', () => {
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    updateDisplay();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-
-            updateDisplay();
-        });
-    </script>
 </body>
 
 </html>
