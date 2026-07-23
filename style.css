@@ -136,7 +136,7 @@ body {
     left: 0;
     background-color: var(--navbar-bg);
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
     z-index: 1002;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -179,7 +179,8 @@ body {
 .burger-menu img {
     width: 24px;
     height: 24px;
-    filter: invert(1); /* Make the black SVG white */
+    filter: invert(1);
+    /* Make the black SVG white */
     transition: transform 0.3s ease;
 }
 
@@ -231,7 +232,8 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 100px 20px; /* Added padding-top to avoid header cutoff */
+    padding: 100px 20px;
+    /* Added padding-top to avoid header cutoff */
     position: relative;
 }
 
@@ -349,7 +351,8 @@ body {
 .page-container {
     padding-top: 120px;
     max-width: 800px;
-    margin: 3px auto; /* Added 3px margin as requested */
+    margin: 3px auto;
+    /* Added 3px margin as requested */
     padding-bottom: 100px;
 }
 
@@ -482,7 +485,8 @@ body {
     }
 
     #modpack-grid {
-        padding: 0 20px !important; /* Reduce side margins on mobile */
+        padding: 0 20px !important;
+        /* Reduce side margins on mobile */
         justify-content: center;
     }
 
@@ -502,8 +506,10 @@ body {
     }
 
     .hero {
-        padding-top: 120px; /* More padding to ensure nothing is cutoff */
-        justify-content: flex-start; /* Start from top on mobile */
+        padding-top: 120px;
+        /* More padding to ensure nothing is cutoff */
+        justify-content: flex-start;
+        /* Start from top on mobile */
     }
 }
 

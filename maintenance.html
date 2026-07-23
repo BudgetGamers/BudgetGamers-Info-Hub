@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance</title>
+    <meta name="description" content="Site is undergoing maintenance.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="Images/Logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="Images/Logo.png" alt="Logo">
+            <span>BudgetGamers</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="How_To_Join/index.html" class="nav-link">How to Join</a>
+            <a href="Status/index.html" class="nav-link">Server Status</a>
+            <div class="nav-dropdown">
+                <span class="nav-link" style="cursor: pointer;">Downloads ▼</span>
+                <div class="nav-dropdown-content">
+                    <a href="Modpacks/index.html">Modpacks</a>
+                    <a href="Distro/index.html">Distro</a>
+                </div>
+            </div>
+            <a href="https://github.com/BudgetGamers" target="_blank" class="nav-link">GitHub</a>
+            <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
+        </div>
+    </nav>
+
+    <!-- Background Blobs -->
+    <div class="background-blob blob-1"></div>
+    <div class="background-blob blob-2"></div>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title" id="maintenance-title">Maintenance</h1>
+            <p class="hero-subtitle" id="maintenance-text">
+                This page is undergoing maintenance. Check back in a bit!
+            </p>
+            <div class="hero-btns">
+                <a href="index.html" class="btn btn-primary">
+                    Go Back Home
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const pageName = params.get('page');
+        if (pageName) {
+            document.getElementById('maintenance-title').textContent = pageName + " - Maintenance";
+            document.getElementById('maintenance-text').textContent = pageName + " is undergoing maintenance check back in a bit.";
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
