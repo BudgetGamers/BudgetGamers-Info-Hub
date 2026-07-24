@@ -1,7 +1,6 @@
 const API_URL = 'https://daylong-giddily-culminate.ngrok-free.dev/status';
 
 async function updateStatus() {
-    // 1. Properly reference the DOM element
     const display = document.getElementById('server-display');
 
     if (!display) {
@@ -19,8 +18,13 @@ async function updateStatus() {
 
         if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         const rawData = await response.json();
+
+        // Handle array vs object format safely
         const data = Array.isArray(rawData) ? rawData[0] : rawData;
-        const instances = data.AvailableInstances || [];
+        const instances = data.AvailableInstances || rawData || [];
+
+        // Grab public IP sent from backend
+        const serverPublicIP = data.PublicIP || '0.0.0.0';
 
         display.innerHTML = '';
 
@@ -43,7 +47,9 @@ async function updateStatus() {
 
             const endpoint = server.ApplicationEndpoints?.[0]?.Endpoint || "";
             const port = endpoint.split(':').pop() || "25565";
-            const ipAddress = `25.32.195.216:${port}`;
+
+            // Displays your real home public IP + Game Port
+            const ipAddress = `${serverPublicIP}:${port}`;
 
             const players = server.Metrics?.["Active Users"]?.RawValue ?? 0;
             const maxPlayers = server.Metrics?.["Active Users"]?.MaxValue ?? 0;
@@ -98,5 +104,5 @@ document.addEventListener('click', async (e) => {
 // Initial Fetch
 updateStatus();
 
-// Automatically update server metrics every 30 seconds
+// Refresh every 30 seconds
 setInterval(updateStatus, 30000);
