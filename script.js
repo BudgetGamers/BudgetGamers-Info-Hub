@@ -1,4 +1,24 @@
+// TOGGLE THESE FLAGS TO TRUE TO HIDE PAGES FROM NAVIGATION MENUS (WITHOUT DELETING THEM)
+const deprecatedFlags = {
+    "Home": false,
+    "How to Join": true,
+    "Server Status": false,
+    "Downloads ▼": false, // Hides the entire dropdown
+    "Modpacks": false,
+    "Distro": false
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Hide deprecated pages from navigation
+    document.querySelectorAll('.nav-link, .nav-dropdown-content a').forEach(link => {
+        let linkText = link.innerText.trim();
+        // Remove trailing ▼ from dropdown text if present just in case, though we have exact match for Downloads ▼
+        if (deprecatedFlags[linkText] === true) {
+            link.style.display = 'none';
+        }
+    });
+
+
     // Steam Code Copy Functionality
     const copyBtn = document.getElementById('copy-btn');
     const steamCode = document.getElementById('steam-code');
@@ -10,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 await navigator.clipboard.writeText(code);
-                
+
                 // Visual Feedback
                 copyBtn.innerHTML = '<span style="color: #10b981; font-size: 0.7rem; font-weight:800; white-space:nowrap;">COPIED!</span>';
-                
+
                 setTimeout(() => {
                     copyBtn.innerHTML = originalIconHtml;
                 }, 2000);
