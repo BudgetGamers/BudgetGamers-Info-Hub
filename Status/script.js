@@ -1,4 +1,4 @@
-const API_URL = 'https://my-unique-amp-status.loca.lt/status';
+const API_URL = 'https://your-name.ngrok-free.app/status';
 
 async function updateStatus() {
     const display = document.getElementById('server-display');
@@ -6,13 +6,12 @@ async function updateStatus() {
         const response = await fetch(API_URL, {
             method: 'GET',
             headers: {
-                // THIS BYPASSES THE LOCALTUNNEL WARNING PAGE
-                'bypass-tunnel-reminder': 'true'
+                // Bypasses the initial ngrok free landing page
+                'ngrok-skip-browser-warning': 'true'
             }
         });
 
         if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-
         const rawData = await response.json();
         const data = Array.isArray(rawData) ? rawData[0] : rawData;
         const instances = data.AvailableInstances || [];
