@@ -6,9 +6,8 @@ async function updateStatus() {
         const response = await fetch(API_URL, {
             method: 'GET',
             headers: {
-                // Bypasses the localtunnel reminder page
-                'Bypass-Tunnel-Remainder': 'true',
-                'user-agent': 'custom-app'
+                // THIS BYPASSES THE LOCALTUNNEL WARNING PAGE
+                'bypass-tunnel-reminder': 'true'
             }
         });
 
