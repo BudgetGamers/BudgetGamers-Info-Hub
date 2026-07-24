@@ -8,6 +8,16 @@
         if (isMaintenance) {
             window.location.href = "maintenance.html?page=Home";
         }
+
+        // TOGGLE THESE FLAGS TO TRUE TO HIDE PAGES FROM NAVIGATION MENUS
+        const deprecatedFlags = {
+            "Home": false,
+            "How to Join": true,
+            "Server Status": false,
+            "Downloads ▼": false,
+            "Modpacks": false,
+            "Distro": false
+        };
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

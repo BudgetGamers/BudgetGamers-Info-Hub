@@ -1,19 +1,9 @@
-// TOGGLE THESE FLAGS TO TRUE TO HIDE PAGES FROM NAVIGATION MENUS (WITHOUT DELETING THEM)
-const deprecatedFlags = {
-    "Home": false,
-    "How to Join": true,
-    "Server Status": false,
-    "Downloads ▼": false, // Hides the entire dropdown
-    "Modpacks": false,
-    "Distro": false
-};
-
 document.addEventListener('DOMContentLoaded', () => {
     // Hide deprecated pages from navigation
     document.querySelectorAll('.nav-link, .nav-dropdown-content a').forEach(link => {
-        let linkText = link.innerText.trim();
+        let linkText = link.textContent.trim();
         // Remove trailing ▼ from dropdown text if present just in case, though we have exact match for Downloads ▼
-        if (deprecatedFlags[linkText] === true) {
+        if (typeof deprecatedFlags !== 'undefined' && deprecatedFlags[linkText] === true) {
             link.style.display = 'none';
         }
     });
