@@ -1,6 +1,14 @@
 const API_URL = 'https://daylong-giddily-culminate.ngrok-free.dev/status';
 
 async function updateStatus() {
+    // 1. Properly reference the DOM element
+    const display = document.getElementById('server-display');
+
+    if (!display) {
+        console.error("Error: Could not find HTML element with id='server-display'.");
+        return;
+    }
+
     try {
         const response = await fetch(API_URL, {
             method: 'GET',
@@ -87,4 +95,8 @@ document.addEventListener('click', async (e) => {
     }
 });
 
+// Initial Fetch
 updateStatus();
+
+// Automatically update server metrics every 30 seconds
+setInterval(updateStatus, 30000);
