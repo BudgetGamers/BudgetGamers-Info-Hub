@@ -1,15 +1,23 @@
+// Replace this with your exact LocalTunnel subdomain
+const API_URL = 'https://neat-rat-48.loca.lt/status';
+
 async function updateStatus() {
     const display = document.getElementById('server-display');
     try {
-        // Resolve path relative to the current script location to avoid trailing slash issues on GitHub
-        const statusPath = new URL('../status.json', window.location.href).pathname;
-        const response = await fetch(statusPath + '?t=' + new Date().getTime());
+        // Fetch directly from LocalTunnel API endpoint
+        const response = await fetch(API_URL, {
+            method: 'GET',
+            headers: {
+                // REQUIRED: Tells LocalTunnel to return raw JSON instead of its default warning page
+                'Bypass-Tunnel-Remainder': 'true'
+            }
+        });
 
-        if (!response.ok) throw new Error("File not found");
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
         const rawData = await response.json();
         const data = Array.isArray(rawData) ? rawData[0] : rawData;
-        const instances = data.AvailableInstances;
+        const instances = data.AvailableInstances || [];
 
         display.innerHTML = '';
 
