@@ -1,4 +1,4 @@
-const API_URL = 'https://neat-rat-48.loca.lt/status';
+const API_URL = 'https://my-unique-amp-status.loca.lt/status';
 
 async function updateStatus() {
     const display = document.getElementById('server-display');
