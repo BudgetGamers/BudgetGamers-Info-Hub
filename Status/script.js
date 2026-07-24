@@ -1,12 +1,10 @@
-const API_URL = 'https://your-name.ngrok-free.app/status';
+const API_URL = 'https://daylong-giddily-culminate.ngrok-free.dev/status';
 
 async function updateStatus() {
-    const display = document.getElementById('server-display');
     try {
         const response = await fetch(API_URL, {
             method: 'GET',
             headers: {
-                // Bypasses the initial ngrok free landing page
                 'ngrok-skip-browser-warning': 'true'
             }
         });
