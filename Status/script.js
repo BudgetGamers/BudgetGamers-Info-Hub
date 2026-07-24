@@ -1,15 +1,14 @@
-// Replace this with your exact LocalTunnel subdomain
 const API_URL = 'https://neat-rat-48.loca.lt/status';
 
 async function updateStatus() {
     const display = document.getElementById('server-display');
     try {
-        // Fetch directly from LocalTunnel API endpoint
         const response = await fetch(API_URL, {
             method: 'GET',
             headers: {
-                // REQUIRED: Tells LocalTunnel to return raw JSON instead of its default warning page
-                'Bypass-Tunnel-Remainder': 'true'
+                // Bypasses the localtunnel reminder page
+                'Bypass-Tunnel-Remainder': 'true',
+                'user-agent': 'custom-app'
             }
         });
 
@@ -38,7 +37,6 @@ async function updateStatus() {
                 statusClass = "status-offline";
             }
 
-            // PULLING THE PORT: Splits "0.0.0.0:PORT" and takes the end
             const endpoint = server.ApplicationEndpoints?.[0]?.Endpoint || "";
             const port = endpoint.split(':').pop() || "25565";
             const ipAddress = `25.32.195.216:${port}`;
