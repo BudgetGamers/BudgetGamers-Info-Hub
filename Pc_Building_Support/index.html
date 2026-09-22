@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        // TOGGLE THIS FLAG TO TRUE FOR MAINTENANCE MODE
+        const isMaintenance = false;
+        if (isMaintenance) {
+            window.location.href = "../maintenance.html?page=PC%20Builds";
+        }
+
+        // TOGGLE THESE FLAGS TO TRUE TO HIDE PAGES FROM NAVIGATION MENUS
+        const deprecatedFlags = {
+            "Home": false,
+            "PC Builds": false,
+            "Server Status": false,
+            "Downloads ▼": false,
+            "Modpacks": false,
+            "Distro": false
+        };
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Builds | BudgetGamers</title>
+    <meta name="description"
+        content="Browse BudgetGamers' PC builds — budget rigs, high-end beasts, and compact powerhouses with full part lists and guides.">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../Images/Logo.png">
+
+    <style>
+        /* PC Builds Page Specific Styles */
+        .builds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+            width: 100%;
+            padding: 0 80px;
+            box-sizing: border-box;
+        }
+
+        .build-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        /* Default hover (overridden per tier below) */
+        .build-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .build-card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+        }
+
+        .build-card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .build-card:hover .build-card-img-wrapper img {
+            transform: scale(1.06);
+        }
+
+        .build-tier-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* ── Tier colour scheme ──────────────────────────────────────────
+           Uncommon  : muted grey-green   (starter / entry)
+           Common    : steel blue         (mid-range)
+           Rare      : deep purple        (mid-high)
+           Legendary : molten gold shimmer (ultra high end)
+        ──────────────────────────────────────────────────────────────── */
+
+        /* UNCOMMON */
+        .tier-uncommon {
+            background: rgba(148, 163, 122, 0.22);
+            color: #b5c99a;
+            border: 1px solid rgba(148, 163, 122, 0.5);
+        }
+
+        .build-card.tier-uncommon-card:hover {
+            border-color: #b5c99a;
+            box-shadow: 0 16px 40px rgba(148, 163, 122, 0.15);
+        }
+
+        /* COMMON */
+        .tier-common {
+            background: rgba(59, 130, 246, 0.22);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .build-card.tier-common-card:hover {
+            border-color: #93c5fd;
+            box-shadow: 0 16px 40px rgba(59, 130, 246, 0.18);
+        }
+
+        /* RARE */
+        .tier-rare {
+            background: rgba(139, 92, 246, 0.22);
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+        }
+
+        .build-card.tier-rare-card:hover {
+            border-color: #c4b5fd;
+            box-shadow: 0 16px 40px rgba(139, 92, 246, 0.22);
+        }
+
+        /* LEGENDARY */
+        .tier-legendary {
+            color: #fde047;
+            border: 1px solid rgba(234, 179, 8, 0.55);
+            /* animated gold shimmer */
+            background: linear-gradient(90deg,
+                    rgba(234, 179, 8, 0.20) 0%,
+                    rgba(253, 224, 71, 0.38) 50%,
+                    rgba(234, 179, 8, 0.20) 100%);
+            background-size: 200% 100%;
+            animation: legendaryShimmer 2.6s linear infinite;
+        }
+
+        @keyframes legendaryShimmer {
+            0% {
+                background-position: 200% center;
+            }
+
+            100% {
+                background-position: -200% center;
+            }
+        }
+
+        .build-card.tier-legendary-card:hover {
+            border-color: #fde047;
+            box-shadow: 0 16px 40px rgba(234, 179, 8, 0.22);
+        }
+
+        /* ── Card internals ── */
+        .build-card-body {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 12px;
+        }
+
+        .build-card-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .build-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            flex-grow: 1;
+        }
+
+        .build-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .build-spec-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .build-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .build-card-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 11px 16px;
+            font-size: 0.88rem;
+            min-width: 120px;
+        }
+
+        .builds-header-note {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: -20px;
+            margin-bottom: 48px;
+            line-height: 1.6;
+        }
+
+        /* ── Collapsible category sections ── */
+        .build-section {
+            width: 100%;
+            padding: 0 80px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+        }
+
+        .build-section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            padding: 18px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            user-select: none;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .build-section-header:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .build-section-header.open {
+            border-radius: 14px 14px 0 0;
+            border-bottom-color: transparent;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-icon {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .section-label {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+            flex: 1;
+        }
+
+        .section-count {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3px 10px;
+        }
+
+        .section-chevron {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .build-section-header.open .section-chevron {
+            transform: rotate(180deg);
+        }
+
+        .build-section-body {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s ease,
+                padding 0.35s ease;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .build-section-body.open {
+            max-height: 3000px;
+            opacity: 1;
+            padding: 24px 0;
+        }
+
+        @media (max-width: 900px) {
+
+            .builds-grid,
+            .build-section {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .builds-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="../index.html" class="nav-logo">
+            <img src="../Images/Logo.png" alt="Logo">
+            <span>BudgetGamers</span>
+        </a>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link active">PC Builds</a>
+            <a href="../Status/index.html" class="nav-link">Server Status</a>
+            <div class="nav-dropdown">
+                <span class="nav-link" style="cursor: pointer;">Downloads &#9660;</span>
+                <div class="nav-dropdown-content">
+                    <a href="../Modpacks/index.html">Modpacks</a>
+                    <a href="../Distro/index.html">Distro</a>
+                </div>
+            </div>
+            <a href="https://github.com/BudgetGamers" target="_blank" class="nav-link">GitHub</a>
+            <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
+        </div>
+        <div class="nav-actions">
+            <button class="burger-menu" id="burger-menu">
+                <img src="../Images/burger-menu-svgrepo-com.svg" alt="Menu">
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-overlay" id="mobile-overlay">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link active">PC Builds</a>
+        <a href="../Status/index.html" class="nav-link">Server Status</a>
+        <a href="../Modpacks/index.html" class="nav-link">Modpacks</a>
+        <a href="../Distro/index.html" class="nav-link">Distro</a>
+        <a href="https://github.com/BudgetGamers" target="_blank" class="nav-link">GitHub</a>
+        <a href="https://discord.gg/fDvucph7B3" target="_blank" class="nav-link">Discord</a>
+    </div>
+
+    <!-- Background Blobs -->
+    <div class="background-blob blob-1"></div>
+    <div class="background-blob blob-2"></div>
+
+    <main class="page-container" style="max-width: none; width: 100%; padding-left: 0; padding-right: 0;">
+        <header class="header" style="text-align: center; margin-bottom: 24px;">
+            <h1 class="hero-title" style="font-size: 3.5rem;">PC Builds</h1>
+            <p class="hero-subtitle">Curated builds for every budget and use case</p>
+        </header>
+
+        <p class="builds-header-note">
+            Click <strong style="color:#fff;">View Part List</strong> to open the full parts on PCPartPicker.<br>
+            Have a build to share? Drop it in <a href="https://discord.gg/fDvucph7B3" target="_blank"
+                style="color: var(--accent-primary); text-decoration: none;">Discord</a>!
+        </p>
+
+        <!-- ============================================================
+             SECTION: Home PC
+        ============================================================ -->
+        <div class="build-section" id="section-homepc">
+            <div class="build-section-header" id="hdr-homepc" onclick="toggleSection('homepc')" role="button"
+                aria-expanded="false" aria-controls="body-homepc">
+                <span class="section-icon">&#127968;</span>
+                <span class="section-label">Home PC</span>
+                <span class="section-count">Coming Soon</span>
+                <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+            <div class="build-section-body" id="body-homepc">
+                <div class="builds-grid">
+                    <article class="build-card" id="homepc-coming-soon" style="border-style: dashed; opacity: 0.6;">
+                        <div class="build-card-img-wrapper">
+                            <div
+                                style="width:100%; aspect-ratio:16/9; background: rgba(255,255,255,0.03); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v4l3 3" />
+                                </svg>
+                                <span
+                                    style="color:rgba(255,255,255,0.15); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; font-weight:700;">Coming
+                                    Soon</span>
+                            </div>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">More Builds Coming</h2>
+                            <p class="build-card-desc">
+                                Got a build idea or want to submit your own rig? Join the Discord and share it with the
+                                community!
+                            </p>
+                            <div class="build-card-actions">
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-homepc-suggest" style="flex:1; justify-content:center;">
+                                    Suggest a Build
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: Gaming  (starts expanded)
+        ============================================================ -->
+        <div class="build-section" id="section-gaming">
+            <div class="build-section-header open" id="hdr-gaming" onclick="toggleSection('gaming')" role="button"
+                aria-expanded="true" aria-controls="body-gaming">
+                <span class="section-icon">&#127918;</span>
+                <span class="section-label">Gaming</span>
+                <span class="section-count">4 builds</span>
+                <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+            <div class="build-section-body open" id="body-gaming">
+                <div class="builds-grid">
+
+                    <!-- UNCOMMON: Basic Rig -->
+                    <article class="build-card tier-uncommon-card" id="build-budget-orange">
+                        <div class="build-card-img-wrapper">
+                            <div style="width:100%; aspect-ratio:16/9; background: linear-gradient(135deg, #1e1e2e 0%, #2d1b4e 50%, #1a1a2e 100%); display:flex; align-items:center; justify-content:center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(148,163,122,0.35)" stroke-width="1" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <path d="M8 21h8m-4-4v4" />
+                                    <path d="M6 7h.01M6 10h.01M6 13h.01M10 7h8M10 10h8M10 13h4" />
+                                </svg>
+                            </div>
+                            <span class="build-tier-badge tier-uncommon">The starter</span>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">Basic Rig</h2>
+                            <p class="build-card-desc">
+                                A solid entry-level gaming rig that handles Minecraft fairly. And handles 1080p gaming
+                                at medium
+                                settings with ease.
+                            </p>
+                            <div class="build-specs">
+                                <span class="build-spec-chip">Ryzen 7 5700G</span>
+                                <span class="build-spec-chip">Vega 8 iGPU</span>
+                                <span class="build-spec-chip">16GB DDR4 3200mts</span>
+                                <span class="build-spec-chip">1TB NVMe SSD</span>
+                                <span class="build-spec-chip">~$650 USD</span>
+                            </div>
+                            <div class="build-card-actions">
+                                <a href="https://pcpartpicker.com/user/BudgetGamers32/saved/9FgGnQ" target="_blank"
+                                    class="btn btn-primary" id="btn-budget-partlist">
+                                    <img src="https://cdn.simpleicons.org/pcpartpicker/000" alt="" style="width:16px;">
+                                    View Part List
+                                </a>
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-budget-discord">
+                                    Ask on Discord
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- COMMON: Intermediate Rig -->
+                    <article class="build-card tier-common-card" id="build-highend-white">
+                        <div class="build-card-img-wrapper">
+                            <div style="width:100%; aspect-ratio:16/9; background: linear-gradient(135deg, #1e1e2e 0%, #2d1b4e 50%, #1a1a2e 100%); display:flex; align-items:center; justify-content:center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(59,130,246,0.35)" stroke-width="1" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <path d="M8 21h8m-4-4v4" />
+                                    <path d="M6 7h.01M6 10h.01M6 13h.01M10 7h8M10 10h8M10 13h4" />
+                                </svg>
+                            </div>
+                            <span class="build-tier-badge tier-common">Mid-range</span>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">Intermediate Rig</h2>
+                            <p class="build-card-desc">
+                                A solid Rig for 1080p AA gaming at normal refresh rates.
+                            </p>
+                            <div class="build-specs">
+                                <span class="build-spec-chip">Ryzen 7 5800xt</span>
+                                <span class="build-spec-chip">RX 6600</span>
+                                <span class="build-spec-chip">16GB DDR4 3200mts</span>
+                                <span class="build-spec-chip">1TB NVMe SSD</span>
+                                <span class="build-spec-chip">~$975</span>
+                            </div>
+                            <div class="build-card-actions">
+                                <a href="https://pcpartpicker.com/user/BudgetGamers32/saved/QBjdrH" target="_blank"
+                                    class="btn btn-primary" id="btn-highend-partlist">
+                                    <img src="https://cdn.simpleicons.org/pcpartpicker/000" alt="" style="width:16px;">
+                                    View Part List
+                                </a>
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-highend-discord">
+                                    Ask on Discord
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- RARE: Advanced Rig -->
+                    <article class="build-card tier-rare-card" id="build-itx-compact">
+                        <div class="build-card-img-wrapper">
+                            <div style="width:100%; aspect-ratio:16/9; background: linear-gradient(135deg, #1e1e2e 0%, #2d1b4e 50%, #1a1a2e 100%); display:flex; align-items:center; justify-content:center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(139,92,246,0.35)" stroke-width="1" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <path d="M8 21h8m-4-4v4" />
+                                    <path d="M6 7h.01M6 10h.01M6 13h.01M10 7h8M10 10h8M10 13h4" />
+                                </svg>
+                            </div>
+                            <span class="build-tier-badge tier-rare">Mid-High End</span>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">Advanced Rig</h2>
+                            <p class="build-card-desc">
+                                A Rig capable of AAA gaming at high refresh rates at 1440p.
+                            </p>
+                            <div class="build-specs">
+                                <span class="build-spec-chip">Ryzen 7 5800xt</span>
+                                <span class="build-spec-chip">Radeon 9060xt 16GB</span>
+                                <span class="build-spec-chip">32GB DDR4 3200mts</span>
+                                <span class="build-spec-chip">1TB NVMe SSD</span>
+                                <span class="build-spec-chip">4TB 5400RPM HDD</span>
+                                <span class="build-spec-chip">~$1,600</span>
+                            </div>
+                            <div class="build-card-actions">
+                                <a href="https://pcpartpicker.com/user/BudgetGamers32/saved/y9rNgs" target="_blank"
+                                    class="btn btn-primary" id="btn-itx-partlist">
+                                    <img src="https://cdn.simpleicons.org/pcpartpicker/000" alt="" style="width:16px;">
+                                    View Part List
+                                </a>
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-itx-discord">
+                                    Ask on Discord
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- LEGENDARY: Expert Rig -->
+                    <article class="build-card tier-legendary-card" id="build-highend">
+                        <div class="build-card-img-wrapper">
+                            <div
+                                style="width:100%; aspect-ratio:16/9; background: linear-gradient(135deg, #1e1e2e 0%, #2d1b4e 50%, #1a1a2e 100%); display:flex; align-items:center; justify-content:center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(255,107,0,0.4)" stroke-width="1" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <path d="M8 21h8m-4-4v4" />
+                                    <path d="M6 7h.01M6 10h.01M6 13h.01M10 7h8M10 10h8M10 13h4" />
+                                </svg>
+                            </div>
+                            <span class="build-tier-badge tier-legendary">Ultra High End</span>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">Expert Rig</h2>
+                            <p class="build-card-desc">
+                                An ultra high end rig capable of 4k gaming at easily 120fps.
+                            </p>
+                            <div class="build-specs">
+                                <span class="build-spec-chip">Ryzen 7 5800xt</span>
+                                <span class="build-spec-chip">Radeon Rx 7900xtx</span>
+                                <span class="build-spec-chip">64GB DDR4 3600mts</span>
+                                <span class="build-spec-chip">4TB NVMe</span>
+                                <span class="build-spec-chip">2TB 7200RPM HDD</span>
+                                <span class="build-spec-chip">~$5000</span>
+                            </div>
+                            <div class="build-card-actions">
+                                <a href="https://pcpartpicker.com/user/BudgetGamers32/saved/VRvXYJ" target="_blank"
+                                    class="btn btn-primary" id="btn-midrange-partlist">
+                                    <img src="https://cdn.simpleicons.org/pcpartpicker/000" alt="" style="width:16px;">
+                                    View Part List
+                                </a>
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-midrange-discord">
+                                    Ask on Discord
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: Editing
+        ============================================================ -->
+        <div class="build-section" id="section-editing">
+            <div class="build-section-header" id="hdr-editing" onclick="toggleSection('editing')" role="button"
+                aria-expanded="false" aria-controls="body-editing">
+                <span class="section-icon">&#127916;</span>
+                <span class="section-label">Editing</span>
+                <span class="section-count">Coming Soon</span>
+                <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+            <div class="build-section-body" id="body-editing">
+                <div class="builds-grid">
+                    <article class="build-card" id="editing-coming-soon" style="border-style: dashed; opacity: 0.6;">
+                        <div class="build-card-img-wrapper">
+                            <div
+                                style="width:100%; aspect-ratio:16/9; background: rgba(255,255,255,0.03); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v4l3 3" />
+                                </svg>
+                                <span
+                                    style="color:rgba(255,255,255,0.15); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; font-weight:700;">Coming
+                                    Soon</span>
+                            </div>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">More Builds Coming</h2>
+                            <p class="build-card-desc">
+                                Got a build idea or want to submit your own rig? Join the Discord and share it with the
+                                community!
+                            </p>
+                            <div class="build-card-actions">
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-editing-suggest" style="flex:1; justify-content:center;">
+                                    Suggest a Build
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: Server
+        ============================================================ -->
+        <div class="build-section" id="section-server">
+            <div class="build-section-header" id="hdr-server" onclick="toggleSection('server')" role="button"
+                aria-expanded="false" aria-controls="body-server">
+                <span class="section-icon">&#128421;</span>
+                <span class="section-label">Server</span>
+                <span class="section-count">Coming Soon</span>
+                <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+            <div class="build-section-body" id="body-server">
+                <div class="builds-grid">
+                    <article class="build-card" id="server-coming-soon" style="border-style: dashed; opacity: 0.6;">
+                        <div class="build-card-img-wrapper">
+                            <div
+                                style="width:100%; aspect-ratio:16/9; background: rgba(255,255,255,0.03); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                                    fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v4l3 3" />
+                                </svg>
+                                <span
+                                    style="color:rgba(255,255,255,0.15); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; font-weight:700;">Coming
+                                    Soon</span>
+                            </div>
+                        </div>
+                        <div class="build-card-body">
+                            <h2 class="build-card-title">More Builds Coming</h2>
+                            <p class="build-card-desc">
+                                Got a build idea or want to submit your own rig? Join the Discord and share it with the
+                                community!
+                            </p>
+                            <div class="build-card-actions">
+                                <a href="https://discord.gg/fDvucph7B3" target="_blank" class="btn btn-secondary"
+                                    id="btn-server-suggest" style="flex:1; justify-content:center;">
+                                    Suggest a Build
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../script.js"></script>
+    <script>
+        function toggleSection(id) {
+            const header = document.getElementById('hdr-' + id);
+            const body = document.getElementById('body-' + id);
+            const isOpen = body.classList.contains('open');
+            body.classList.toggle('open', !isOpen);
+            header.classList.toggle('open', !isOpen);
+            header.setAttribute('aria-expanded', String(!isOpen));
+        }
+    </script>
+</body>
+
+</html>
