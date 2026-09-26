@@ -9,22 +9,80 @@ async function updateStatus() {
     }
 
     try {
-        const response = await fetch(API_URL, {
-            method: 'GET',
-            headers: {
-                'ngrok-skip-browser-warning': 'true'
+        let liveInstances = [];
+        try {
+            const response = await fetch(API_URL, {
+                method: 'GET'
+            });
+
+            if (response.ok) {
+                const apiData = await response.json();
+                const parsedApiData = Array.isArray(apiData) ? apiData[0] : apiData;
+                liveInstances = parsedApiData.AvailableInstances || apiData || [];
+            } else {
+                console.warn(`HTTP Error: ${response.status}`);
+            }
+        } catch (fetchErr) {
+            console.warn("Could not fetch dynamic status, defaulting to offline states.", fetchErr);
+        }
+
+        // Static data to keep the look consistent
+        const staticConfig = {
+            BaseDomain: 'budgetgamers.us',
+            AvailableInstances: [
+                {
+                    InstanceName: 'MC01',
+                    FriendlyName: 'Minecraft Survival',
+                    Subdomain: 'jsmp', // -> jsmp.budgetgamers.us
+                    UseSRV: true,    // Hides port if you have an SRV record
+                    AppState: 0, // Default to offline, updated by API
+                    ApplicationEndpoints: [{ Endpoint: '0.0.0.0:25565' }],
+                    Metrics: { "Active Users": { RawValue: 0, MaxValue: 20 } },
+                    Description: 'Main survival server with economy and plugins.',
+                    ModuleDisplayName: 'Minecraft'
+                },
+                {
+                    InstanceName: 'PZ01',
+                    FriendlyName: 'Project Zomboid',
+                    Subdomain: 'pz',
+                    UseSRV: false,
+                    AppState: 0, // Default to offline, updated by API
+                    ApplicationEndpoints: [{ Endpoint: '0.0.0.0:16261' }],
+                    Metrics: { "Active Users": { RawValue: 0, MaxValue: 32 } },
+                    Description: 'Hardcore zombie survival.',
+                    ModuleDisplayName: 'Project Zomboid'
+                },
+                {
+                    InstanceName: 'ARK01',
+                    FriendlyName: 'ARK: Survival Evolved',
+                    Subdomain: 'ark',
+                    UseSRV: false,
+                    AppState: 0, // Default to offline, updated by API
+                    ApplicationEndpoints: [{ Endpoint: '0.0.0.0:7777' }],
+                    Metrics: { "Active Users": { RawValue: 0, MaxValue: 70 } },
+                    Description: 'Dinosaur taming and base building.',
+                    ModuleDisplayName: 'ARK'
+                }
+            ]
+        };
+
+        // Merge dynamic data into static configuration
+        staticConfig.AvailableInstances.forEach(staticInstance => {
+            const liveMatch = liveInstances.find(live => live.InstanceName === staticInstance.InstanceName);
+            if (liveMatch) {
+                // Update dynamic fields
+                staticInstance.AppState = liveMatch.AppState;
+                if (liveMatch.Metrics) {
+                    staticInstance.Metrics = liveMatch.Metrics;
+                }
             }
         });
 
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-        const rawData = await response.json();
+        const data = staticConfig;
+        const instances = data.AvailableInstances;
 
-        // Handle array vs object format safely
-        const data = Array.isArray(rawData) ? rawData[0] : rawData;
-        const instances = data.AvailableInstances || rawData || [];
-
-        // Grab public IP sent from backend
-        const serverPublicIP = data.PublicIP || '0.0.0.0';
+        // Base domain for connection addresses
+        const baseDomain = data.BaseDomain || data.PublicIP || 'budgetgamers.us';
 
         display.innerHTML = '';
 
@@ -48,8 +106,11 @@ async function updateStatus() {
             const endpoint = server.ApplicationEndpoints?.[0]?.Endpoint || "";
             const port = endpoint.split(':').pop() || "25565";
 
-            // Displays your real home public IP + Game Port
-            const ipAddress = `${serverPublicIP}:${port}`;
+            // Construct connection address
+            let ipAddress = server.Subdomain ? `${server.Subdomain}.${baseDomain}` : baseDomain;
+            if (!server.UseSRV) {
+                ipAddress += `:${port}`;
+            }
 
             const players = server.Metrics?.["Active Users"]?.RawValue ?? 0;
             const maxPlayers = server.Metrics?.["Active Users"]?.MaxValue ?? 0;
