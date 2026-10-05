@@ -1,0 +1,29 @@
+BudgetGamers Debian Edition - Changelog
+========================================
+Version: 13.7.0-0.1.0
+Release Date: 2026-10-05
+Status: Initial Alpha Release
+
+------------------------------------------
+INITIAL ALPHA RELEASE
+------------------------------------------
+
+This is the very first public alpha release of the BudgetGamers Debian Edition.
+Based on Debian 13.7.0 (Trixie) with KDE Plasma desktop environment.
+
+Changes & Features:
+  - Initial release of BudgetGamers Debian Edition
+  - Based on Debian 13.7.0 (Trixie) stable branch
+  - KDE Plasma desktop environment pre-configured
+  - Pre-installed gaming utilities and drivers
+  - Custom BudgetGamers branding and theming
+  - Optimized out-of-the-box gaming experience
+
+Known Issues:
+  - Hardware requirements are subject to change due to the experimental nature of this release
+  - Some hardware configurations may require additional driver setup
+  - This is an alpha release; expect bugs and rough edges
+
+Notes:
+  - Please report any issues to our Discord or GitHub
+  - Feedback is welcome and appreciated during this alpha phase
